@@ -1,13 +1,15 @@
 from fastapi import FastAPI
+from flasx.database import engine
+from flasx.models.user_model import Base as UserBase
+
+from flasx.routers import (
+    register_router,
+    auth_router,
+)
+
+UserBase.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "q": q}
+app.include_router(register_router.router)
+app.include_router(auth_router.router)
