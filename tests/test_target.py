@@ -1,11 +1,11 @@
 from fastapi.testclient import TestClient
 from flasx.main import app
 
-client = TestClient(app)
+client = TestClient(app)  
 
 def test_add_target():
-    client.post("/register/", json={"username": "targetuser", "password": "pass"})
-    login_res = client.post("/auth/token", data={"username": "targetuser", "password": "pass"})
+    client.post("/register/", json={"username": "targetuser", "password": "pass"}) # Register a new user
+    login_res = client.post("/auth/token", data={"username": "targetuser", "password": "pass"}) # Log in to get an access token
     token = login_res.json()["access_token"]
     client.post("/provinces/", json={"name": "Chiang Mai", "is_secondary": True, "tax_reduction": 15})
     response = client.post("/targets/", json={"province_id": 1}, headers={"Authorization": f"Bearer {token}"})
