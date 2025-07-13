@@ -17,6 +17,10 @@ TargetBase.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+@app.get("/")
+def read_root() -> dict:
+    return {"message": "Welcome to the backend of the Thai Travel project"}
+
 app.include_router(register_router.router)
 app.include_router(auth_router.router)
 app.include_router(province_router.router)
